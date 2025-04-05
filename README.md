@@ -57,6 +57,103 @@ $ yarn run test:e2e
 # test coverage
 $ yarn run test:cov
 ```
+# Todo App - Backend
+
+Ce dépôt contient la partie **backend** de l'application Todo, développée avec **NestJS**.  
+Elle fournit une API REST pour gérer une liste de tâches : création, consultation, modification et suppression.
+
+---
+
+##  Stack technique
+
+- **NestJS** comme framework backend
+- **Prisma** pour l'accès à la base de données MySQL
+- Base de données : **MySQL**
+- Utilisation de **Yarn** comme gestionnaire de paquets
+- Architecture orientée **Use Cases** pour séparer la logique métier
+
+---
+
+##  Installation
+
+1. Cloner le dépôt GitHub et se positionner dans le dossier du projet.
+2. Installer les dépendances avec la commande `yarn install`.
+3. Configurer les accès à la base de données dans le fichier `.env`.
+4. Exécuter les migrations Prisma pour créer les tables nécessaires.
+5. Lancer le serveur avec `yarn start:dev`.
+
+---
+
+##  Fonctionnalités de l’API
+
+- **GET /tasks** : Récupération de toutes les tâches.
+- **POST /tasks** : Création d’une nouvelle tâche.
+- **PUT /tasks/:id** : Mise à jour d’une tâche existante.
+- **DELETE /tasks/:id** : Suppression d’une tâche.
+
+---
+
+##  Structure du projet et modifications importantes
+
+Le projet suit une architecture propre (Clean Architecture) :  
+Les contrôleurs utilisent des **use cases** pour exécuter la logique métier, en s’appuyant sur des **repositories** pour l'accès aux données.
+
+###  `SaveTaskUseCase.ts`
+
+Ce fichier contient la logique métier permettant de créer ou mettre à jour une tâche.  
+Une validation a été ajoutée pour empêcher la création ou la mise à jour d'une tâche avec un nom vide ou composé uniquement d'espaces.  
+La tâche est ensuite sauvegardée via le repository, en fonction de la présence ou non d’un identifiant.
+
+---
+
+###  `SaveTaskDto.ts`
+
+Ce DTO (Data Transfer Object) sert à transférer les données d’une tâche vers la couche métier.  
+Il a été ajusté pour permettre la mise à jour des tâches : en plus du nom, il contient désormais un identifiant optionnel.  
+Cela permet d’utiliser le même DTO pour la création **et** la modification des tâches.
+
+---
+
+###  `UseCaseFactory.ts`
+
+Ce fichier instancie tous les cas d’usage de l’application.  
+Le cas d’usage pour la sauvegarde d’une tâche (`SaveTaskUseCase`) a été ajouté à la factory.  
+Cela permet de centraliser la création des use cases et de les injecter facilement dans les contrôleurs.
+
+---
+
+###  `TaskRepository.ts`
+
+Ce fichier gère la communication avec la base de données via Prisma.  
+La méthode `save` a été modifiée pour prendre en charge deux cas :  
+- Si un identifiant est fourni, elle effectue une mise à jour de la tâche existante.
+- Sinon, elle crée une nouvelle tâche.
+
+Ce comportement permet de centraliser la logique de sauvegarde (création ou mise à jour) au même endroit.
+
+---
+
+###  `TaskController.ts`
+
+Ce fichier définit les routes de l’API REST.  
+Une nouvelle route a été ajoutée pour gérer la mise à jour d’une tâche (`PUT /tasks/:id`).  
+Cette route reçoit un nom de tâche en entrée, construit un DTO avec l’identifiant et le nom, puis appelle le use case de sauvegarde.
+
+---
+
+##  Base de données
+
+Le modèle Prisma utilisé est simple : une table `Task` avec deux champs, `id` (auto-incrémenté) et `name`.  
+Prisma est utilisé pour la gestion des migrations, la génération du client, et l’interaction avec la base de données MySQL.
+
+---
+
+##  Frontend
+
+Le frontend associé à cette API est disponible à l'adresse suivante :  
+[https://github.com/nassimelaouad/todo-frontend](https://github.com/nassimelaouad/todo-frontend)
+
+---
 
 ## Support
 

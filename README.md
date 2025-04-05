@@ -68,7 +68,7 @@ Elle fournit une API REST pour gérer une liste de tâches : création, consulta
 
 - **NestJS** comme framework backend
 - **Prisma** pour l'accès à la base de données MySQL
-- Base de données : **MySQL**
+- Base de données : **MySQL** j'ai créer la base de donnée **hdmtestdev**
 - Utilisation de **Yarn** comme gestionnaire de paquets
 - Architecture orientée **Use Cases** pour séparer la logique métier
 
@@ -138,13 +138,6 @@ Ce comportement permet de centraliser la logique de sauvegarde (création ou mis
 Ce fichier définit les routes de l’API REST.  
 Une nouvelle route a été ajoutée pour gérer la mise à jour d’une tâche (`PUT /tasks/:id`).  
 Cette route reçoit un nom de tâche en entrée, construit un DTO avec l’identifiant et le nom, puis appelle le use case de sauvegarde.
-
----
-
-##  Base de données
-
-Le modèle Prisma utilisé est simple : une table `Task` avec deux champs, `id` (auto-incrémenté) et `name`.  
-Prisma est utilisé pour la gestion des migrations, la génération du client, et l’interaction avec la base de données MySQL.
 
 ---
 

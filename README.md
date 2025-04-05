@@ -144,7 +144,7 @@ Cette route reçoit un nom de tâche en entrée, construit un DTO avec l’ident
 ##  Frontend
 
 Le frontend associé à cette API est disponible à l'adresse suivante :  
-[https://github.com/nassimelaouad/todo-frontend](https://github.com/nassimelaouad/todo-frontend)
+[[https://github.com/nassimelaouad/todo-frontend](https://github.com/nassimelaouad/todo-frontend)](https://github.com/nassimelaouad/todo_frontend)
 
 ---
 
